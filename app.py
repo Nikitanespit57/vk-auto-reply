@@ -21,13 +21,16 @@ def send_message(user_id, message):
         'v': '5.131'
     })
 
+from flask import Flask, request, Response
+...
+
 @app.route('/callback', methods=['POST'])
 def callback():
     data = request.get_json()
 
     # Отправляем строку подтверждения
     if data['type'] == 'confirmation':
-        return CONFIRMATION_TOKEN
+        return Response(CONFIRMATION_TOKEN, mimetype='text/plain')
 
     # Ответ на входящее сообщение
     if data['type'] == 'message_new':
