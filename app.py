@@ -1,6 +1,6 @@
-from flask import Flask, request, Response
-import datetime
+from flask import Flask, request
 import requests
+import datetime
 
 app = Flask(__name__)
 
@@ -12,6 +12,21 @@ API_URL = 'https://api.vk.com/method/'
 def index():
     return 'Бот работает!'
 
+@app.route('/callback', methods=['POST'])
+def callback():
+    data = request.get_json()
+
+    if data.get('type') == 'confirmation':
+        return CONFIRMATION_TOKEN, 200
+
+    if data.get('type') == 'message_new':
+        user_id = data['object']['message']['from_id']
+        now = datetime.datetime.now().time()
+        if now >= datetime.time(19, 0) or now < datetime.time(11, 0):
+            send_message(user_id, "Извините, наш магазин уже закрыт. Менеджер ответит с 11:00. Хорошего вечера!")
+
+    return 'ok', 200
+
 def send_message(user_id, message):
     requests.post(API_URL + 'messages.send', params={
         'user_id': user_id,
@@ -20,18 +35,3 @@ def send_message(user_id, message):
         'access_token': TOKEN,
         'v': '5.131'
     })
-
-@app.route('/callback', methods=['POST'])
-def callback():
-    data = request.get_json()
-
-    if data['type'] == 'confirmation':
-        return Response(CONFIRMATION_TOKEN, status=200, mimetype='text/plain')
-
-    if data['type'] == 'message_new':
-        user_id = data['object']['message']['from_id']
-        now = datetime.datetime.now().time()
-        if now >= datetime.time(19, 0) or now < datetime.time(11, 0):
-            send_message(user_id, "Извините, наш магазин уже закрыт. Менеджер ответит с 11:00. Хорошего вечера!")
-
-    return 'ok'
