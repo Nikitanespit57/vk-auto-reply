@@ -1,11 +1,12 @@
-@app.route('/')
-def index():
-    return 'Бот работает!'
 import datetime
 import requests
 from flask import Flask, request
 
-app = Flask(__name__)
+app = Flask(__name__)  # СНАЧАЛА создаём объект app
+
+@app.route('/')
+def index():
+    return 'Бот работает!'
 
 TOKEN = 'ВАШ_ТОКЕН_СООБЩЕСТВА'
 CONFIRMATION_TOKEN = 'ВАШ_КОД_ПОДТВЕРЖДЕНИЯ_ОТ_VK'
