@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 import datetime
 import requests
 
@@ -7,10 +7,6 @@ app = Flask(__name__)
 TOKEN = 'vk1.a.FZOgrA0xWTrDN4l5_WuToCk3GxyXDzblJapmESKH1HB4ulDucLPtute0HJBZBJsc0s7kV8fSNXRF7-WB1iw4OmYVTK27N5F1S0SJiRh1xjeyGU5ARj3jtb-3G1zTmr9zThgJWOi-izIrrZm7fWSOiO98gwmn0ZI1ohvGDSxoEqf4TCCnGhnVs_u7A-jZl6MeiMGzQCOPcke51kFP1Ihlkw'
 CONFIRMATION_TOKEN = '5ca8abb0'
 API_URL = 'https://api.vk.com/method/'
-
-@app.route('/')
-def index():
-    return 'Бот работает!'
 
 def send_message(user_id, message):
     requests.post(API_URL + 'messages.send', params={
@@ -21,18 +17,13 @@ def send_message(user_id, message):
         'v': '5.131'
     })
 
-from flask import Flask, request, Response
-...
-
 @app.route('/callback', methods=['POST'])
 def callback():
     data = request.get_json()
 
-    # Отправляем строку подтверждения
     if data['type'] == 'confirmation':
-        return Response(CONFIRMATION_TOKEN, mimetype='text/plain')
+        return Response(CONFIRMATION_TOKEN, status=200, mimetype='text/plain')
 
-    # Ответ на входящее сообщение
     if data['type'] == 'message_new':
         user_id = data['object']['message']['from_id']
         now = datetime.datetime.now().time()
