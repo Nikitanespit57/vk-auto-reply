@@ -8,8 +8,8 @@ app = Flask(__name__)  # СНАЧАЛА создаём объект app
 def index():
     return 'Бот работает!'
 
-TOKEN = 'ВАШ_ТОКЕН_СООБЩЕСТВА'
-CONFIRMATION_TOKEN = 'ВАШ_КОД_ПОДТВЕРЖДЕНИЯ_ОТ_VK'
+TOKEN = 'vk1.a.FZOgrA0xWTrDN4l5_WuToCk3GxyXDzblJapmESKH1HB4ulDucLPtute0HJBZBJsc0s7kV8fSNXRF7-WB1iw4OmYVTK27N5F1S0SJiRh1xjeyGU5ARj3jtb-3G1zTmr9zThgJWOi-izIrrZm7fWSOiO98gwmn0ZI1ohvGDSxoEqf4TCCnGhnVs_u7A-jZl6MeiMGzQCOPcke51kFP1Ihlkw'
+CONFIRMATION_TOKEN = '5ca8abb0'
 API_URL = 'https://api.vk.com/method/'
 
 def send_message(user_id, message):
