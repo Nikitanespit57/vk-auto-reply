@@ -1,16 +1,16 @@
+from flask import Flask, request
 import datetime
 import requests
-from flask import Flask, request
 
-app = Flask(__name__)  # СНАЧАЛА создаём объект app
-
-@app.route('/')
-def index():
-    return 'Бот работает!'
+app = Flask(__name__)
 
 TOKEN = 'vk1.a.FZOgrA0xWTrDN4l5_WuToCk3GxyXDzblJapmESKH1HB4ulDucLPtute0HJBZBJsc0s7kV8fSNXRF7-WB1iw4OmYVTK27N5F1S0SJiRh1xjeyGU5ARj3jtb-3G1zTmr9zThgJWOi-izIrrZm7fWSOiO98gwmn0ZI1ohvGDSxoEqf4TCCnGhnVs_u7A-jZl6MeiMGzQCOPcke51kFP1Ihlkw'
 CONFIRMATION_TOKEN = '5ca8abb0'
 API_URL = 'https://api.vk.com/method/'
+
+@app.route('/')
+def index():
+    return 'Бот работает!'
 
 def send_message(user_id, message):
     requests.post(API_URL + 'messages.send', params={
@@ -24,9 +24,12 @@ def send_message(user_id, message):
 @app.route('/callback', methods=['POST'])
 def callback():
     data = request.get_json()
+
+    # Отправляем строку подтверждения
     if data['type'] == 'confirmation':
         return CONFIRMATION_TOKEN
 
+    # Ответ на входящее сообщение
     if data['type'] == 'message_new':
         user_id = data['object']['message']['from_id']
         now = datetime.datetime.now().time()
