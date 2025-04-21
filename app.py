@@ -15,28 +15,28 @@ def index():
 @app.route('/callback', methods=['POST'])
 def callback():
     data = request.get_json()
-    print('Получено событие от VK:', data)  # Логируем событие
+    print("Получены данные:", data)
 
     if data.get('type') == 'confirmation':
         return CONFIRMATION_TOKEN, 200
 
     if data.get('type') == 'message_new':
         user_id = data['object']['message']['from_id']
-        
-        # Смещение по времени — UTC+3 (Москва)
-        now = (datetime.datetime.utcnow() + datetime.timedelta(hours=3)).time()
-        print(f"Локальное время: {now}")
+        now = datetime.datetime.utcnow() + datetime.timedelta(hours=3)  # Добавляем смещение на Москву
+        print("Текущее время:", now.time())
 
-        if now >= datetime.time(19, 0) or now < datetime.time(11, 0):
+        if now.time() >= datetime.time(19, 0) or now.time() < datetime.time(11, 0):
+            print("Отправляем сообщение пользователю:", user_id)
             send_message(user_id, "Извините, наш магазин уже закрыт. Менеджер ответит с 11:00. Хорошего вечера!")
 
     return 'ok', 200
 
 def send_message(user_id, message):
-    requests.post(API_URL + 'messages.send', params={
+    response = requests.post(API_URL + 'messages.send', params={
         'user_id': user_id,
         'message': message,
         'random_id': 0,
         'access_token': TOKEN,
         'v': '5.131'
     })
+    print("Ответ от VK при отправке сообщения:", response.text)
