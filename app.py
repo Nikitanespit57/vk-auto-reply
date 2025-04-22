@@ -27,7 +27,7 @@ def callback():
 
         if now.time() >= datetime.time(19, 0) or now.time() < datetime.time(11, 0):
             print("Отправляем сообщение пользователю:", user_id)
-            send_message(user_id, "Извините, наш магазин уже закрыт. Менеджер ответит с 11:00. Хорошего вечера!")
+            send_message(user_id, "Извините, наш магазин закрыт. Менеджер ответит с 11:00,всего вам хорошего. !")
 
     return 'ok', 200
 
