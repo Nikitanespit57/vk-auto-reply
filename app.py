@@ -39,4 +39,4 @@ def send_message(user_id, message):
         'access_token': TOKEN,
         'v': '5.131'
     })
-    print("Ответ от VK при отправке сообщения:", response.text)
+  
