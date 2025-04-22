@@ -18,7 +18,7 @@ def callback():
     print("Получены данные:", data)
 
     if data.get('type') == 'confirmation':
-        return CONFIRMATION_TOKEN, 200
+    return Response(CONFIRMATION_TOKEN, content_type='text/plain')
 
     if data.get('type') == 'message_new':
         user_id = data['object']['message']['from_id']
