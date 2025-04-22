@@ -5,7 +5,7 @@ import datetime
 app = Flask(__name__)
 
 TOKEN = 'vk1.a.2KD2dV8S5a0wHw-dfsskcIvd6_PDBzwSKyUkLk6oilxIJAt0TZQ5tJuE1K1dhbtKBLl1qpVjlQgmcsgh0r5mZYltCp4bEQUg7Y5sl4PywlbXFNjtLFfs2S7L5Ii1AkUjXjSM0U3wQBXKKe2DX_cYvKmXgDIvyauZ0fSz0hU4kqXmIahKGmOkehECIOiuydVelEsdlVz9ELoJe7JjBAePeQ'
-CONFIRMATION_TOKEN = '1741d8df'
+CONFIRMATION_TOKEN = '669a4c52'
 API_URL = 'https://api.vk.com/method/'
 
 @app.route('/')
