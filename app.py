@@ -21,7 +21,15 @@ def callback():
         return Response(CONFIRMATION_TOKEN, content_type='text/plain')
 
     if data.get('type') == 'message_new':
-        user_id = data['object']['message']['from_id']
+        message = data['object']['message']
+        user_id = message['from_id']
+        peer_id = message['peer_id']
+
+        # Игнорируем системные сообщения от групп/бота
+        if user_id != peer_id:
+            print("Пропущено системное сообщение.")
+            return 'ok', 200
+
         now = datetime.datetime.utcnow() + datetime.timedelta(hours=3)
         print("Текущее время:", now.time())
 
