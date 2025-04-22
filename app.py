@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 import requests
 import datetime
 
@@ -18,16 +18,16 @@ def callback():
     print("Получены данные:", data)
 
     if data.get('type') == 'confirmation':
-    return Response(CONFIRMATION_TOKEN, content_type='text/plain')
+        return Response(CONFIRMATION_TOKEN, content_type='text/plain')
 
     if data.get('type') == 'message_new':
         user_id = data['object']['message']['from_id']
-        now = datetime.datetime.utcnow() + datetime.timedelta(hours=3)  # Добавляем смещение на Москву
+        now = datetime.datetime.utcnow() + datetime.timedelta(hours=3)
         print("Текущее время:", now.time())
 
         if now.time() >= datetime.time(19, 0) or now.time() < datetime.time(11, 0):
             print("Отправляем сообщение пользователю:", user_id)
-            send_message(user_id, "Извините, наш магазин закрыт. Менеджер ответит с 11:00,всего вам хорошего. !")
+            send_message(user_id, "Извините, наш магазин закрыт. Менеджер ответит с 11:00, всего вам хорошего!")
 
     return 'ok', 200
 
@@ -39,4 +39,5 @@ def send_message(user_id, message):
         'access_token': TOKEN,
         'v': '5.131'
     })
+    print("Ответ от VK:", response.text)
   
